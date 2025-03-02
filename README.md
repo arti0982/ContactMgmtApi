@@ -1,7 +1,6 @@
-# [Your Spring Boot Application Name]
+# CustomerPhoneMgmt
 
-[A brief description of your application.]
-
+This project is a sample take on retrieving and updating phone numbers for a customer.
 ## Table of Contents
 
 -   [About](#about)
@@ -9,76 +8,79 @@
     -   [Prerequisites](#prerequisites)
     -   [Installation](#installation)
     -   [Running the Application](#running-the-application)
--   [Usage](#usage)
+-   [Usage and Assumptions](#Usage-and-Assumptions)
 -   [API Documentation](#api-documentation)
--   [Contributing](#contributing)
--   [License](#license)
+-   [Improvements](#Improvements)
 
 ## About
 
-[Provide a more detailed description of your application, its purpose, and its key features.]
+CustomerPhoneMgmt is a SPRING BOOT application demonstrating some sample REST API calls to
+- Retrieve phone numbers associated with a customer of a Telco company.
+- Ability to call an API to activate a phone number associated to a customer.
+- Retrieve all phone numbers of the company.
+
+A phone number is always associated with a customer and a customer can have multiple phone numbers.
 
 ## Getting Started
 
 ### Prerequisites
 
--   [Java version (e.g., JDK 17)]
--   [Maven or Gradle version]
--   [Database (e.g., MySQL, PostgreSQL) and its setup instructions, if applicable]
--   [Any other required software or tools]
+-   Java version (8 or later)
+-   Maven
+-   Spring Boot
+-   Lombok
+-   OpenAPI
 
 ### Installation
 
 1.  Clone the repository:
     ```bash
-    git clone [your-repository-url]
+    git clone https://github.com/arti0982/CustomerPhoneMgmt.git
     ```
 2.  Navigate to the project directory:
     ```bash
     cd [your-project-directory]
     ```
-3.  Build the application using Maven or Gradle:
+3.  Build the application using Maven:
 
     **Maven:**
     ```bash
     ./mvnw clean install
     ```
 
-    **Gradle:**
-    ```bash
-    ./gradlew clean build
-    ```
-
 ### Running the Application
 
-1.  Run the Spring Boot application:
+1.  Run the Spring Boot application via below options.
+-   Run the CustomerPhoneMgmtApiApplication.java class via any editor like Intellij
 
-    **Maven:**
+-    **Maven:**
     ```bash
     ./mvnw spring-boot:run
     ```
 
-    **Gradle:**
-    ```bash
-    ./gradlew bootRun
-    ```
+2.  The application will start on port number 8080.
 
-2.  The application will start on [port number (e.g., 8080)].
 
-## Usage
+### Usage and Assumptions
+As mentioned in the requirements this application does not involve data retrieval or updates from a database.
+Instead the data setup is loaded at startup and the set up populates a hashmap the code for which is in the class **StaticCustomerPhoneData**
+The phone number is validated to check if its a 10 digit number starting with a 0
 
-[Provide examples of how to use your application, including API endpoints, user interfaces, or command-line instructions.]
+Below are details of the API calls implemented
 
-## API Documentation
+- A GET request send to http://localhost:8080/ returns a 200 response code on success as well as all phone number entries that are available in setup.
 
-[If you have API documentation (e.g., Swagger/OpenAPI), provide a link or instructions on how to access it.]
-Example:
-"API documentation available at http://localhost:8080/swagger-ui.html"
+- A GET request send to http://localhost:8080/customers/{customerId}/phone-numbers returns a 200 response code on success as well as the phone numbers associated with the customer id passed. It  returns 404 if the requested customer id was not found and 400 if the customer id is not in expected format.
 
-## Contributing
+- A PATCH request send to http://localhost:8080/customers/{customerId}/phone-numbers/{phoneNumber} returns a 200 response code on successful update of Active flag of the phone number passed along with the customer id. It  returns 404 if the requested customer id or phone number were not found and 400 if the customer id / phone number is not in expected format.
 
-[Explain how others can contribute to your project, including guidelines for submitting pull requests, reporting issues, and coding standards.]
+### API Documentation
 
-## License
+"API documentation available at http://localhost:8080/swagger-ui/index.html#/"
 
-[Specify the license under which your application is distributed (e.g., MIT, Apache 2.0).]
+### Improvements
+The current implementation the data is not fetched from database but rather set up in a hashmap at the startup for better search performance.
+The API call for getting all the phone numbers will retrieve a large data set which will demand the need to introduce pagination for that API. Given the choice of dataset and its characteristic pagination is not implemented in current solution.
+
+
+

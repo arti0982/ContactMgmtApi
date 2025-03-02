@@ -36,4 +36,12 @@ public class CustomerService {
         phoneNumberToActivate.setActive(true);
         return phoneNumberToActivate;
     }
+
+    public List<Customer> getAllCustomerDetails() {
+        List<Customer> customers = new ArrayList<>();
+        StaticCustomerPhoneData.CONTACT_MAP.forEach((key, value) -> {
+            customers.add(value);
+        });
+        return customers;
+    }
 }

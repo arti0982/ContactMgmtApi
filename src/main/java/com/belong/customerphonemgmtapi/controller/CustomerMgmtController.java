@@ -1,6 +1,5 @@
 package com.belong.customerphonemgmtapi.controller;
 
-
 import com.belong.customerphonemgmtapi.model.Customer;
 import com.belong.customerphonemgmtapi.model.PhoneNumber;
 import com.belong.customerphonemgmtapi.service.CustomerService;
@@ -27,7 +26,7 @@ public class CustomerMgmtController {
     @Autowired
     private CustomerPhoneNumberRestValidator validator;
 
-    @Operation(summary = "Get all the available phone numbers")
+    @Operation(summary = " Get all the available phone numbers ")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "List of phone numbers")})
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<String>> getAllPhoneNumbers() {
@@ -35,7 +34,7 @@ public class CustomerMgmtController {
         return new ResponseEntity<>(customerService.getAllPhoneNumbers(), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get phone numbers assigned to a customer")
+    @Operation(summary = " Get phone numbers assigned to a customer ")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of phone numbers of a customer"),
             @ApiResponse(responseCode = "404", description = "Customer not found"),
@@ -48,7 +47,7 @@ public class CustomerMgmtController {
         return new ResponseEntity<>(phoneNumbers, HttpStatus.OK);
     }
 
-    @Operation(summary = "Activate a phone number assigned to a customer")
+    @Operation(summary = " Activate a phone number assigned to a customer")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Activate the phone number of a customer"),
             @ApiResponse(responseCode = "404", description = "Customer or phone number not found"),
@@ -61,6 +60,20 @@ public class CustomerMgmtController {
         validator.validatePhoneNumber(phoneNumber);
         PhoneNumber phoneNumberActivated = this.customerService.activateCustomerPhoneNumber(customerId, phoneNumber);
         return new ResponseEntity<>(phoneNumberActivated,HttpStatus.OK);
+    }
+
+    /*
+    This API is written just for personal looking up static data setup for the run and verifying the data between test runs.
+     */
+    @Operation(summary = "List customer contact details of all customers ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "list of customer contact details of all customer")
+    })
+    @RequestMapping(value="/customers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Customer>> getAllCustomerDetails() {
+        List<Customer> customers;
+        customers = customerService.getAllCustomerDetails();
+        return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
 }
