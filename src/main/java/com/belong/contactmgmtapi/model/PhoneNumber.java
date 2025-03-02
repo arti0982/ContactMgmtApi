@@ -1,5 +1,6 @@
 package com.belong.contactmgmtapi.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @Getter
@@ -9,7 +10,9 @@ import lombok.*;
 @AllArgsConstructor
 public class PhoneNumber {
 
+    @Schema(description = "Unique phone number")
     private String number;
 
-    private String active;
+    @Schema(description = "Identifies if the phone number is ACTIVE")
+    private boolean active;
 }

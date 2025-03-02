@@ -1,12 +1,14 @@
 package com.belong.contactmgmtapi.service;
 
 import com.belong.contactmgmtapi.exception.ResourceNotFoundException;
-import com.belong.contactmgmtapi.util.StaticContactsData;
+import com.belong.contactmgmtapi.util.StaticCustomerPhoneData;
+import com.belong.contactmgmtapi.validator.CustomerPhoneNumberRestValidator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -16,7 +18,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CustomerServiceTest {
 
     @InjectMocks
-    private CustomerService customerService ;//= new CustomerService();
+    private CustomerService customerService ;
+
+    @InjectMocks
+    private CustomerPhoneNumberRestValidator customerPhoneNumberRestValidator;
 
     @AfterEach
     void tearDown() {
@@ -30,8 +35,8 @@ public class CustomerServiceTest {
 
         assertFalse(phoneNumbers.isEmpty());
         assertEquals(2, phoneNumbers.size());
-        assertTrue(phoneNumbers.contains("1236020432"));
-        assertTrue(phoneNumbers.contains("1236222432"));
+        assertTrue(phoneNumbers.contains("0431230067"));
+        assertTrue(phoneNumbers.contains("0431299567"));
     }
 
     @Test
@@ -40,38 +45,46 @@ public class CustomerServiceTest {
         List<String> phoneNumbers = customerService.getAllPhoneNumbers();
 
         assertEquals(6, phoneNumbers.size());
-        assertTrue(phoneNumbers.contains("1236020432"));
-        assertTrue(phoneNumbers.contains("1236020432"));
+        assertTrue(phoneNumbers.contains("0431230067"));
+        assertTrue(phoneNumbers.contains("0431299567"));
 
     }
 
     @Test
     void activateCustomerPhoneNumber_shouldUpdateCustomerPhoneNumber() {
-        assertEquals("N", StaticContactsData.CONTACT_MAP.get("12345").getPhoneNumbers().get(0).getActive());
+        assertFalse(StaticCustomerPhoneData.CONTACT_MAP.get("12345").getPhoneNumbers().get(0).isActive());
 
-        customerService.activateCustomerPhoneNumber("12345","1236000432");
-        assertEquals("Y", StaticContactsData.CONTACT_MAP.get("12345").getPhoneNumbers().get(0).getActive());
+        customerService.activateCustomerPhoneNumber("12345","0431234567");
+        assertTrue(StaticCustomerPhoneData.CONTACT_MAP.get("12345").getPhoneNumbers().get(0).isActive());
 
     }
 
     @Test
     void activateCustomerPhoneNumber_shouldThrowResourceNotFoundException_whenCustomerNotFound() {
 
-        assertThrows(ResourceNotFoundException.class, () -> customerService.activateCustomerPhoneNumber("111", "12323434"));
+        assertThrows(ResourceNotFoundException.class, () -> customerService.activateCustomerPhoneNumber("111", "0431234567"));
 
     }
 
     @Test
-    void activateCustomerPhoneNumber_shouldThrowResourceNotFoundException_whenPhoneNumberrNotFound() {
+    void activateCustomerPhoneNumber_shouldThrowResourceNotFoundException_whenPhoneNumberNotFound() {
 
         assertThrows(ResourceNotFoundException.class, () -> customerService.activateCustomerPhoneNumber("12345", "12323434"));
 
     }
 
     @Test
-    void getPhoneNumbersByCustomer_shouldThrowResourceNotFoundException_whenCustomerNotFound() {
+    void validateCustomerId_shouldThrowRResponseStatusException_whenCustomerIdIsInvalid() {
 
-        assertThrows(ResourceNotFoundException.class, () -> customerService.getPhoneNumbersByCustomer("111"));
+        assertThrows(ResponseStatusException.class, () -> customerPhoneNumberRestValidator.validateCustomerId("abcd"));
 
     }
+
+    @Test
+    void validateCustomerId_shouldThrowRResponseStatusException_whenPhoneNumberIsInvalid() {
+
+        assertThrows(ResponseStatusException.class, () -> customerPhoneNumberRestValidator.validatePhoneNumber("12323434"));
+
+    }
+
 }

@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.belong</groupId>
-    <artifactId>ContactMgmtApi</artifactId>
+    <artifactId>CustomerPhoneMgmt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ContactMgmtApi</name>
     <description>ContactMgmtApi</description>

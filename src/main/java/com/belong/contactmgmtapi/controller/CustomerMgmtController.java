@@ -2,6 +2,7 @@ package com.belong.contactmgmtapi.controller;
 
 
 import com.belong.contactmgmtapi.model.Customer;
+import com.belong.contactmgmtapi.model.PhoneNumber;
 import com.belong.contactmgmtapi.service.CustomerService;
 import com.belong.contactmgmtapi.validator.CustomerPhoneNumberRestValidator;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping ("/")
 @ControllerAdvice
-public class ContactsController {
+public class CustomerMgmtController {
 
     @Autowired
     private CustomerService customerService;
@@ -30,10 +31,10 @@ public class ContactsController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "List of phone numbers")})
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<String>> getAllPhoneNumbers() {
-        List<String> phoneNumbers;
-        phoneNumbers = customerService.getAllPhoneNumbers();
-        System.out.println("Retrieved phoneNumbers are: " + phoneNumbers);
-        return new ResponseEntity<>(phoneNumbers, HttpStatus.OK);
+//        List<String> phoneNumbers;
+//        phoneNumbers = customerService.getAllPhoneNumbers();
+//        System.out.println("Retrieved phoneNumbers are: " + phoneNumbers);
+        return new ResponseEntity<>(customerService.getAllPhoneNumbers(), HttpStatus.OK);
     }
 
     @Operation(summary = "Get phone numbers assigned to a customer")
@@ -44,9 +45,8 @@ public class ContactsController {
     })
     @RequestMapping(value = "/customers/{customerId}/phone-numbers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<String>> getCustomerPhoneNumbers(@PathVariable String customerId) {
-        List<String> phoneNumbers;
-        validator.validateCustomerId(Long.valueOf(customerId));
-        phoneNumbers = customerService.getPhoneNumbersByCustomer(customerId);
+        validator.validateCustomerId(customerId);
+        List<String> phoneNumbers = customerService.getPhoneNumbersByCustomer(customerId);
         System.out.println("Retrieved phoneNumbers are: " + phoneNumbers);
         return new ResponseEntity<>(phoneNumbers, HttpStatus.OK);
     }
@@ -58,13 +58,13 @@ public class ContactsController {
             @ApiResponse(responseCode = "400", description = "Invalid format of customerID and/or phone number")
     })
     @RequestMapping(value="/customers/{customerId}/phone-numbers/{phoneNumber}", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> activateCustomerPhoneNumber(@PathVariable String customerId, @PathVariable String phoneNumber) {
+    public ResponseEntity<PhoneNumber> activateCustomerPhoneNumber(@PathVariable String customerId, @PathVariable String phoneNumber) {
 
-        validator.validateCustomerId(Long.valueOf(customerId));
+        validator.validateCustomerId(customerId);
         validator.validatePhoneNumber(phoneNumber);
-        this.customerService.activateCustomerPhoneNumber(customerId, phoneNumber);
+        PhoneNumber phoneNumberActivated = this.customerService.activateCustomerPhoneNumber(customerId, phoneNumber);
         System.out.println("updated phone number: "+phoneNumber+ " for customer: " + customerId);
-        return new ResponseEntity<>("Phone Number Activated",HttpStatus.OK);
+        return new ResponseEntity<>(phoneNumberActivated,HttpStatus.OK);
     }
 
     @Operation(summary = "List customer contact details of all customers ")
