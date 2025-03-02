@@ -1,4 +1,4 @@
-package com.belong.contactmgmtapi;
+package com.belong.customerphonemgmtapi;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -31,10 +31,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
         }
 )
 
-public class ContactMgmtApiApplication {
+public class CustomerPhoneMgmtApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ContactMgmtApiApplication.class, args);
+        SpringApplication.run(CustomerPhoneMgmtApiApplication.class, args);
     }
 
 }

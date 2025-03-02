@@ -1,8 +1,8 @@
-package com.belong.contactmgmtapi.service;
+package com.belong.customerphonemgmtapi.service;
 
-import com.belong.contactmgmtapi.exception.ResourceNotFoundException;
-import com.belong.contactmgmtapi.util.StaticCustomerPhoneData;
-import com.belong.contactmgmtapi.validator.CustomerPhoneNumberRestValidator;
+import com.belong.customerphonemgmtapi.exception.ResourceNotFoundException;
+import com.belong.customerphonemgmtapi.util.StaticCustomerPhoneData;
+import com.belong.customerphonemgmtapi.validator.CustomerPhoneNumberRestValidator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

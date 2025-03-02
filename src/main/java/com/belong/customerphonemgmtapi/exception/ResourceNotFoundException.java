@@ -1,4 +1,4 @@
-package com.belong.contactmgmtapi.exception;
+package com.belong.customerphonemgmtapi.exception;
 
 import lombok.NoArgsConstructor;
 

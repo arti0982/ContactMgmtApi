@@ -1,7 +1,7 @@
-package com.belong.contactmgmtapi.util;
+package com.belong.customerphonemgmtapi.util;
 
-import com.belong.contactmgmtapi.model.Customer;
-import com.belong.contactmgmtapi.model.PhoneNumber;
+import com.belong.customerphonemgmtapi.model.Customer;
+import com.belong.customerphonemgmtapi.model.PhoneNumber;
 
 import java.util.HashMap;
 import java.util.List;

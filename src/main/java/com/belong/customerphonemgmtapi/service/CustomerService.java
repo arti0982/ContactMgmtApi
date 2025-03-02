@@ -1,24 +1,16 @@
-package com.belong.contactmgmtapi.service;
+package com.belong.customerphonemgmtapi.service;
 
-import com.belong.contactmgmtapi.exception.ResourceNotFoundException;
-import com.belong.contactmgmtapi.model.Customer;
-import com.belong.contactmgmtapi.model.PhoneNumber;
+import com.belong.customerphonemgmtapi.exception.ResourceNotFoundException;
+import com.belong.customerphonemgmtapi.model.Customer;
+import com.belong.customerphonemgmtapi.model.PhoneNumber;
 import org.springframework.stereotype.Service;
-import com.belong.contactmgmtapi.util.StaticCustomerPhoneData;
+import com.belong.customerphonemgmtapi.util.StaticCustomerPhoneData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CustomerService {
-
-    public List<Customer> getAllCustomerDetails() {
-        List<Customer> customers = new ArrayList<>();
-        StaticCustomerPhoneData.CONTACT_MAP.forEach((key, value) -> {
-            customers.add(value);
-        });
-        return customers;
-    }
 
     public List<String> getPhoneNumbersByCustomer(String customerId) {
         if ( StaticCustomerPhoneData.CONTACT_MAP.get(customerId) == null)

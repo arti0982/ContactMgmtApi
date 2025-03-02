@@ -1,10 +1,10 @@
-package com.belong.contactmgmtapi.controller;
+package com.belong.customerphonemgmtapi.controller;
 
 
-import com.belong.contactmgmtapi.model.Customer;
-import com.belong.contactmgmtapi.model.PhoneNumber;
-import com.belong.contactmgmtapi.service.CustomerService;
-import com.belong.contactmgmtapi.validator.CustomerPhoneNumberRestValidator;
+import com.belong.customerphonemgmtapi.model.Customer;
+import com.belong.customerphonemgmtapi.model.PhoneNumber;
+import com.belong.customerphonemgmtapi.service.CustomerService;
+import com.belong.customerphonemgmtapi.validator.CustomerPhoneNumberRestValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -31,9 +31,7 @@ public class CustomerMgmtController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "List of phone numbers")})
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<String>> getAllPhoneNumbers() {
-//        List<String> phoneNumbers;
-//        phoneNumbers = customerService.getAllPhoneNumbers();
-//        System.out.println("Retrieved phoneNumbers are: " + phoneNumbers);
+
         return new ResponseEntity<>(customerService.getAllPhoneNumbers(), HttpStatus.OK);
     }
 
@@ -47,7 +45,6 @@ public class CustomerMgmtController {
     public ResponseEntity<List<String>> getCustomerPhoneNumbers(@PathVariable String customerId) {
         validator.validateCustomerId(customerId);
         List<String> phoneNumbers = customerService.getPhoneNumbersByCustomer(customerId);
-        System.out.println("Retrieved phoneNumbers are: " + phoneNumbers);
         return new ResponseEntity<>(phoneNumbers, HttpStatus.OK);
     }
 
@@ -63,20 +60,8 @@ public class CustomerMgmtController {
         validator.validateCustomerId(customerId);
         validator.validatePhoneNumber(phoneNumber);
         PhoneNumber phoneNumberActivated = this.customerService.activateCustomerPhoneNumber(customerId, phoneNumber);
-        System.out.println("updated phone number: "+phoneNumber+ " for customer: " + customerId);
         return new ResponseEntity<>(phoneNumberActivated,HttpStatus.OK);
     }
 
-    @Operation(summary = "List customer contact details of all customers ")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "list of customer contact details of all customer")
-    })
-    @RequestMapping(value="/customers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Customer>> getAllCustomerDetails() {
-        List<Customer> customers;
-        customers = customerService.getAllCustomerDetails();
-        System.out.println("Retrieved customers are: " + customers);
-        return new ResponseEntity<>(customers, HttpStatus.OK);
-    }
-
 }
+

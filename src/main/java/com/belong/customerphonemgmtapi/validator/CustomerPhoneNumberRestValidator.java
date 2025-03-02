@@ -1,4 +1,4 @@
-package com.belong.contactmgmtapi.validator;
+package com.belong.customerphonemgmtapi.validator;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
